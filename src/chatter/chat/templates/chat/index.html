@@ -1,0 +1,10 @@
+<h1>Chatrooms</h1>
+{% if chatrooms %}
+    <ul>
+        {% for room in chatrooms %}
+        <li><a href="{% url 'chat:chatroom' room.id %}">{{ room.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No rooms found!</p>
+{% endif %}

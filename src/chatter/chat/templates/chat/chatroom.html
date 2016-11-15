@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Chatroom - {{ chatroom.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12"><h1>{{ chatroom.title }}</h1></div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Description</h2>
+        <p>{{ chatroom.description }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="form-group">
+            <textarea 
+            class="form-control" 
+            wrap="soft" 
+            rows="{{messages|length}}" 
+            readonly>{% for message in messages %}
+({{ message.author.nick }})[{{ message.publish_date }}]: {{ message.content }}{% endfor %}</textarea>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" method="POST" action="{% url "chat:chatroom_post" chatroom.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-xs-2" for="form-chatroom-new-message">Message</label>
+                <div class="col-xs-8">
+{% if user.is_authenticated %}
+                    <input class="form-control" id="form-chatroom-new-message" type="text" name="message" autofocus>
+{% else %}
+                    <input disabled class="form-control" id="form-chatroom-new-message" type="text" name="message" placeholder="You must be logged in to send messages.">
+{% endif %}
+                </div>
+                <div class="col-xs-2">
+{% if user.is_authenticated %}
+                    <button class="btn btn-primary" type="submit">Submit</button>
+{% else %}
+                    <button disabled class="btn btn-primary" type="submit">Submit</button>
+{% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

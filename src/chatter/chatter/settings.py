@@ -20,17 +20,26 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ei+*cq=-xn%#nnk6#r+coldb-k_&%ux+&mx*6smr4=@+dg87z1'
+SECRET_KEY = os.getenv("SECRET_KEY", 'ei+*cq=-xn%#nnk6#r+coldb-k_&%ux+&mx*6smr4=@+dg87z1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# It would be slightly safer to switch this around,
+# but this makes development a bit easier (don't need to have environemnt variable set).
+DEBUG = False if os.getenv("NO_DEBUG") else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["djangochattersite.azurewebsites.net"]
 
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 86400 # 1 Day
 # Application definition
 
 INSTALLED_APPS = [
+    'chat.apps.ChatConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +63,7 @@ ROOT_URLCONF = 'chatter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,8 +84,12 @@ WSGI_APPLICATION = 'chatter.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'djangotest',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': "DESKTOP-8V2RJ2F\SQLEXPRESS",
+        'PORT': '',
     }
 }
 
