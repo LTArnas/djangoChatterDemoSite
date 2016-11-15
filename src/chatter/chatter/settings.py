@@ -84,12 +84,20 @@ WSGI_APPLICATION = 'chatter.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'djangotest',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': "DESKTOP-8V2RJ2F\SQLEXPRESS",
-        'PORT': '',
+        'ENGINE': os.getenv("MY_DEFAULT_ENGINE", "sql_server.pyodbc"),
+        'NAME': os.getenv("MY_DEFAULT_NAME", "djangotest"),
+        'USER': os.getenv("MY_DEFAULT_USER", ""),
+        'PASSWORD': os.getenv("MY_DEFAULT_PASSWORD", ""),
+        'HOST': os.getenv("MY_DEFAULT_HOST", "DESKTOP-8V2RJ2F\SQLEXPRESS"),
+        'PORT': os.getenv("MY_DEFAULT_PORT", ""),
+    },
+    'production': {
+        'ENGINE': os.getenv("MY_PRODUCTION_ENGINE", "sql_server.pyodbc"),
+        'NAME': os.getenv("MY_PRODUCTION_NAME", ""),
+        'USER': os.getenv("MY_PRODUCTION_USER", ""),
+        'PASSWORD': os.getenv("MY_PRODUCTION_PASSWORD", ""),
+        'HOST': os.getenv("MY_PRODUCTION_HOST", ""),
+        'PORT': os.getenv("MY_PRODUCTION_PORT", ""),
     }
 }
 
