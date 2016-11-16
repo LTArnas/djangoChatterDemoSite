@@ -28,6 +28,8 @@ def create_chatroom(request):
     # Validation...
     if password != password_retry:
         errors.append("Passwords did not match.")
+    if not password or password.isspace():
+        password = ""
     if not title:
         errors.append("No title.")
 
@@ -65,7 +67,7 @@ def chatroom(request, chatroom_id):
     # The key used when storing room's login status in the session.
     # Must match what is set by the challenge.
     session_room_key = SESSION_ROOM_KEY_PREFIX + str(chatroom_id)
-    if room.password:
+    if room.password and room.password.isspace():
         if not request.session.get(session_room_key, None) == str(True):
             return redirect("chat:chatroom_password_challenge", int(chatroom_id))
     # By this point, the we should be safe to show the chat.
@@ -78,7 +80,7 @@ def chatroom_post(request, chatroom_id):
     # The key used when storing room's login status in the session.
     # Must match what is set by the challenge.
     session_room_key = SESSION_ROOM_KEY_PREFIX + str(chatroom_id)
-    if room.password:
+    if room.password and room.password.isspace():
         if not request.session.get(session_room_key, None) == str(True):
             return redirect("chat:chatroom_password_challenge", int(chatroom_id))
     if not request.user.is_authenticated:
