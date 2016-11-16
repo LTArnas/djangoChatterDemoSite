@@ -19,7 +19,7 @@
             {% for room in chatrooms %}
                 <tr>
                     <td><a href="{% url 'chat:chatroom' room.id %}">{{ room.title }}</a></td>
-                    {% if room.password %}
+                    {% if room.password and not room.password.isspace %}
                         <td><span class="glyphicon glyphicon-lock"></span><span class="sr-only">Has password.</span></td>
                     {% else %}
                         <td><span class="sr-only">Does not have password.</span></td>
