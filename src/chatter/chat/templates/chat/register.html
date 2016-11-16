@@ -8,34 +8,63 @@
     </div>
 
     {% if errors %}
-        <ul>
-        {% for error in errors %}
-            <li class="bg-danger text-danger">{{ error }}</li>
-        {% endfor %}
-        </ul>
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="list-unstyled">
+                {% for error in errors %}
+                    <li>
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
     {% endif %}
     
     {% if user.is_authenticated %}
-        <p>You are already logged in.</p>
-        <a href="{% url "chat:index" %}">Home</a>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="alert alert-info">
+                <p>You are already logged in.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="alert alert-info">
+                <a href="{% url "chat:index" %}">Home</a>
+            </div>
+        </div>
+    </div>
+        
     {% else %}
-        <form method="POST" action="{% url "chat:register_user" %}">
-            {% csrf_token %}
-            
-            <label for="username">Username</label>
-            <input type="text" name="username" value="">
 
-            <label for="email">Email</label>
-            <input type="email" name="email" value="">
-            
-            <label for="password">Password</label>
-            <input type="password" name="password" value="">
-            
-            <label for="password_retry">Password</label>
-            <input type="password" name="password_retry" value="">
+    <div class="row">
+        <div class="col-xs-12">
+            <form method="POST" action="{% url "chat:register_user" %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="form-register-username">Username</label>
+                    <input class="form-control" id="form-register-username" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="form-register-email">Email</label>
+                    <input class="form-control" id="form-register-email" type="email" name="email" placeholder="you@somewhere.something">
+                </div>
+                <div class="form-group">
+                    <label for="form-register-password">Password</label>
+                    <input class="form-control" id="form-register-password" type="password" name="password">
+                    <label for="form-register-password-retry">Password (again)</label>
+                    <input class="form-control" id="form-register-password-retry" type="password" name="password_retry">
+                </div>
+                <button class="btn btn-primary" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
 
-            <button type="submit">Register</button>
-        </form>
     {% endif %}
     
 

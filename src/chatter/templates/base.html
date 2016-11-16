@@ -10,7 +10,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <title>{% block title %}Chatter{% endblock %}</title>
     </head>
-    <body>
+    <body style="padding-top:70px">
+        {% include "_nav.html" %}
         <section class="container">
             {% block content %}
             {% endblock %}
