@@ -54,7 +54,7 @@ def create_chatroom(request):
         creator=creator)
 
     if room:
-        return redirect("chat:chatroom", chatroom_id=room.id)
+        return redirect("chat:chatroom", room.id)
     else:
         errors.append("Failed to create room, sorry. Try again.")
         return render(request, render_template_name, {"errors":errors})
@@ -67,7 +67,7 @@ def chatroom(request, chatroom_id):
     session_room_key = SESSION_ROOM_KEY_PREFIX + str(chatroom_id)
     if room.password:
         if not request.session.get(session_room_key, None) == str(True):
-            return redirect("chat:chatroom_password_challenge", chatroom_id=chatroom_id)
+            return redirect("chat:chatroom_password_challenge", chatroom_id)
     # By this point, the we should be safe to show the chat.
     messages = Post.objects.filter(chatroom=room.id)
     context = {"chatroom": room, "messages": messages}
@@ -80,19 +80,19 @@ def chatroom_post(request, chatroom_id):
     session_room_key = SESSION_ROOM_KEY_PREFIX + str(chatroom_id)
     if room.password:
         if not request.session.get(session_room_key, None) == str(True):
-            return redirect("chat:chatroom_password_challenge", chatroom_id=chatroom_id)
+            return redirect("chat:chatroom_password_challenge", chatroom_id)
     if not request.user.is_authenticated:
-        return redirect("chat:chatroom", chatroom_id=chatroom_id)
+        return redirect("chat:chatroom", chatroom_id)
     # By this point, we should be safe to create a message...
     message_content = request.POST.get("message", None)
     if not message_content:
-        return redirect("chat:chatroom", chatroom_id=chatroom_id)
+        return redirect("chat:chatroom", chatroom_id)
     message_author = Profile.objects.get(user=request.user)
     Post.objects.create(
         content=message_content,
         author=message_author,
         chatroom=room)
-    return redirect("chat:chatroom", chatroom_id=chatroom_id)
+    return redirect("chat:chatroom", chatroom_id)
 
 def chatroom_password_challenge(request, chatroom_id):
     """ On success, sets the session object to have a chatroom-unique key, with value of "True".
@@ -107,14 +107,14 @@ def chatroom_password_challenge(request, chatroom_id):
     if request.method == "GET":
         # May have already logged in to the room, recently.
         if request.session.get(session_room_key, None) == str(True):
-            return redirect("chat:chatroom", chatroom_id=room.id)
+            return redirect("chat:chatroom", room.id)
         else:
             return render(request, render_template_name, {"chatroom": room})
 
     password_attempt = request.POST.get("password", None)
     if check_password(password_attempt, room.password):
         request.session[SESSION_ROOM_KEY_PREFIX+str(room.id)] = str(True)
-        return redirect("chat:chatroom", chatroom_id=room.id)
+        return redirect("chat:chatroom", room.id)
     else:
         return render(request, render_template_name, {"chatroom": room})
 
