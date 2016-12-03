@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", 'ei+*cq=-xn%#nnk6#r+coldb-k_&%ux+&mx*6smr4=
 # but this makes development a bit easier (don't need to have environemnt variable set).
 DEBUG = False if os.getenv("NO_DEBUG") else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv("MY_ALLOWED_HOST")]
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "/"
