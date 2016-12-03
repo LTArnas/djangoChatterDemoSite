@@ -1,3 +1,5 @@
+wfastcgi
 Django
 pyodbc
+django-pyodbc
 django-pyodbc-azure
