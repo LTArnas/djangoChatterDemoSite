@@ -133,3 +133,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.getenv("MY_STATIC_ROOT", os.path.join(BASE_DIR, "static/"))
+
+# Location for site-wide static files.
+STATIC_GLOBAL_ROOT = os.path.join(BASE_DIR, "local_static")
