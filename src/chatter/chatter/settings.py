@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'chatter.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv("MY_DEFAULT_ENGINE", "sql_server.pyodbc"),
-        'NAME': os.getenv("MY_DEFAULT_NAME", "djangotest"),
+        'ENGINE': os.getenv("MY_DEFAULT_ENGINE", "django.db.backends.sqlite3"),
+        'NAME': os.getenv("MY_DEFAULT_NAME", os.path.join(BASE_DIR, "db.sqlite3")),
         'USER': os.getenv("MY_DEFAULT_USER", ""),
         'PASSWORD': os.getenv("MY_DEFAULT_PASSWORD", ""),
-        'HOST': os.getenv("MY_DEFAULT_HOST", "DESKTOP-8V2RJ2F\SQLEXPRESS"),
+        'HOST': os.getenv("MY_DEFAULT_HOST", ""),
         'PORT': os.getenv("MY_DEFAULT_PORT", ""),
     }
 }
@@ -131,3 +131,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.getenv("MY_STATIC_ROOT", os.path.join(BASE_DIR, "static/"))

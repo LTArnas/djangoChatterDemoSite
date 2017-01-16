@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "chat/chat_ui.css" %}" >
+{% endblock head %}
+
 {% block title %}Chatroom - {{ chatroom.title }}{% endblock %}
 
 {% block content %}
@@ -17,12 +23,12 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="form-group">
-            <textarea 
-            class="form-control" 
-            wrap="soft" 
-            rows="{{messages|length}}" 
+            <textarea id="chat_messages"
+            class="form-control chat-messages"
+            wrap="soft"
+            rows="{{messages|length}}"
             readonly>{% for message in messages %}
-({{ message.author.nick }})[{{ message.publish_date }}]: {{ message.content }}{% endfor %}</textarea>
+({{ message.author.nick }}) [{{ message.publish_date }}]: {{ message.content }}{% endfor %}</textarea>
         </div>
     </div>
 </div>
@@ -52,5 +58,8 @@
     </div>
 </div>
 
-
 {% endblock content %}
+
+{% block javascript %}
+<script src="{% static "chat/chat_ui.js" %}"></script>
+{% endblock javascript %}
